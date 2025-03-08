@@ -1,11 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello</h1>
+{% extends 'layout.html' %}
+
+{% block sidebar %}{% endblock sidebar %}
+{% block content %}
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
+            <div class="container py-5 text-center">
+                <h1>Привет от Хэкслета!</h1>
+                <h3>Практические курсы по программированию</h3>
+                <button type="button" class="btn btn-primary btn-lg">Узнать больше</button>
+            </div>
+        </div>
+    </div>
 </body>
-</html>
+{% endblock %}
