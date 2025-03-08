@@ -1,11 +1,11 @@
-make install:
+install:
 	pip install uv
 	uv pip install -r requirements.txt
 
-make collectstatic:
+collectstatic:
 	python manage.py collectstatic --no-input
 
-make migrate:
+migrate:
 	python manage.py migrate
 
 build:
