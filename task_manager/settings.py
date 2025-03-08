@@ -22,12 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-azk#l^gsx651)s06w4c2-cu)cfh6^ihr%9bgqq0_6-(a#!5@0*'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 load_dotenv()
+SECRET_KEY = os.getenv('SECRET_KEY')
 ALLOWED_HOSTS = ['127.0.0.1', 'webserver', os.getenv("RENDER_EXTERNAL_HOSTNAME", "localhost")]
 
 
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'task_manager',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'task_manager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
