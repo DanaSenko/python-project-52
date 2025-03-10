@@ -1,0 +1,10 @@
+{% extends 'task_manager.templates.layout.html'%}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Создать пользователя</button>
+</form>
+<a href="{% url 'users_list' %}">Вернуться к списку</a>
+
+{% endblock %}

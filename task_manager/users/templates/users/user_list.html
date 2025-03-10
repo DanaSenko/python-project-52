@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block sidebar %}{% endblock sidebar %}
+
+{% block content %}
+<div class="container mt-5"></div>
+    <h1 class="mb-4">Пользователи</h1>
+    <table data-test="urls" class="table table-bordered table-hover text-center">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Имя пользователя</th>
+                <th scope="col">Полное имя</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Изменить/удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td></td>
+                <td>{{ user.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
