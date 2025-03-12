@@ -20,8 +20,12 @@
             <tr>
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
-                <td></td>
-                <td>{{ user.created_at }}</td>
+                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                <td>{{ user.date_joined }}</td>
+                <td>
+                    <a href="{% url 'update_user' user.id %}">Изменить</a>
+                    <a href="{% url 'delete_user' user.id %}">Удалить</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
