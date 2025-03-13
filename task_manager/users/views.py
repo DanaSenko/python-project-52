@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, FormView
-from .forms import UserCreateForm
+from .forms import UserCreateForm, UserUpdateForm
 from .mixins import UserPermissionMixin
 from django.contrib import messages
 
@@ -33,10 +33,16 @@ class CreateUserView(View): # user registaration and redirect to login page
 
 class UpdateUserView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     model = User
-    fields = ["username", "first_name", "last_name"]
+    form_class = UserUpdateForm
     template_name = "users/update_user.html"
     success_url = reverse_lazy("users_list")
     login_url = "login"
+
+    def form_valid(self, form):
+        if form.cleaned_data["password"]:
+            self.object.set_password(form.cleaned_data["password"])
+        messages.success(self.request, "Пользователь успешно изменен")
+        return super().form_valid(form)
 
 
 class DeleteUserView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
