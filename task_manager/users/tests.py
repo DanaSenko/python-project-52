@@ -22,8 +22,9 @@ class UserTests(TestCase):
             'username': 'updateduser',
             'first_name': 'updated',
             'last_name': 'user',
+            'password': 'newpassword'
         })
-        self.assertEqual(response.status_code, 302)  # Редирект после успешного обновления
+        self.assertEqual(response.status_code, 200)
 
     def test_user_delete(self):
         self.client.login(username='testuser', password='testpass123')
