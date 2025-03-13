@@ -1,7 +1,15 @@
 from django import forms
-from .models import User
+from django.contrib.auth.models import User
 
-class UserForm(forms.ModelForm):
+
+class UserCreateForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput, label="Пароль")
+
     class Meta:
         model = User
-        fields = ['username']
+        fields = ["username", "first_name", "last_name", "password"]
+        labels = {
+            "username": "Имя пользователя",
+            "first_name": "Имя",
+            "last_name": "Фамилия",
+        }

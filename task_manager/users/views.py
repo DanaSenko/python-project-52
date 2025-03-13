@@ -1,25 +1,63 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
-from .models import User
-from django.views.generic import ListView, CreateView
-from django.views.generic.edit import DeleteView, UpdateView
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
+from django.views.generic import ListView, UpdateView, DeleteView, FormView
+from .forms import UserCreateForm
+from .mixins import UserPermissionMixin
+from django.contrib import messages
 
-# Create your views here.
-class UserListView(ListView):
+class UserListView(ListView): # shows all users 
     model = User
-    template_name = 'users/user_list.html'
-    context_object_name = 'users'
+    template_name = "users/user_list.html"
+    context_object_name = "users"
 
-class CreateUserView(CreateView):
+
+class CreateUserView(View): # user registaration and redirect to login page
+    def get(self, request):
+        form = UserCreateForm()
+        return render(request, "users/create_user.html", {"form": form})
+
+    def post(self, request):
+        form = UserCreateForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data["password"])
+            user.save()
+            return redirect("login")
+        return render(request, "users/create_user.html", {"form": form})
+
+
+class UpdateUserView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     model = User
-    fields = ['username']
-    template_name = 'users/create_user.html'
-    success_url = reverse_lazy('users_list')
-
-class UpdateUserView(UpdateView):
-    pass
+    fields = ["username", "first_name", "last_name"]
+    template_name = "users/update_user.html"
+    success_url = reverse_lazy("users_list")
+    login_url = "login"
 
 
-class DeleteUserView(DeleteView):
-    pass
+class DeleteUserView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = "users/delete_user.html"
+    success_url = reverse_lazy("users_list")
+    login_url = "login"
+
+
+class LoginView(FormView):
+    form_class = AuthenticationForm
+    template_name = 'users/login.html'
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        messages.success(self.request, "Вы залогинены")
+        return super().form_valid(form)
+
+class LogoutView(View):
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        messages.success(request, "Вы разлогинены")
+        return redirect('index')

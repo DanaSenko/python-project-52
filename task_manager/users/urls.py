@@ -1,7 +1,11 @@
-from django.urls import path
-from .views import UserListView, CreateUserView
+from django.urls import path, include
+from . import views
 
 urlpatterns = [
-    path('', UserListView.as_view(), name='users_list'),
-    path('create/', CreateUserView.as_view(), name='create_user'),
+    path("", views.UserListView.as_view(), name="users_list"),
+    path("create/", views.CreateUserView.as_view(), name="create_user"),
+    path("<int:pk>/update/", views.UpdateUserView.as_view(), name="update_user"),
+    path("<int:pk>/delete/", views.DeleteUserView.as_view(), name="delete_user"),
+    path('login/', views.LoginView.as_view(), name='login'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
 ]
