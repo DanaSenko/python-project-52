@@ -10,13 +10,14 @@ from .forms import UserCreateForm, UserUpdateForm
 from .mixins import UserPermissionMixin
 from django.contrib import messages
 
-class UserListView(ListView): # shows all users 
+
+class UserListView(ListView):  # shows all users
     model = User
     template_name = "users/user_list.html"
     context_object_name = "users"
 
 
-class CreateUserView(View): # user registaration and redirect to login page
+class CreateUserView(View):  # user registaration and redirect to login page
     def get(self, request):
         form = UserCreateForm()
         return render(request, "users/create_user.html", {"form": form})
@@ -54,16 +55,17 @@ class DeleteUserView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
 
 class LoginView(FormView):
     form_class = AuthenticationForm
-    template_name = 'users/login.html'
-    success_url = reverse_lazy('index')
+    template_name = "users/login.html"
+    success_url = reverse_lazy("index")
 
     def form_valid(self, form):
         login(self.request, form.get_user())
         messages.success(self.request, "Вы залогинены")
         return super().form_valid(form)
 
+
 class LogoutView(View):
     def post(self, request, *args, **kwargs):
         logout(request)
         messages.success(request, "Вы разлогинены")
-        return redirect('index')
+        return redirect("index")

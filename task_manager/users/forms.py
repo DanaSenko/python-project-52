@@ -4,13 +4,13 @@ from django.contrib.auth.models import User
 
 class UserCreateForm(forms.ModelForm):
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'plaseholder': 'Введите пароль'}),
-        label="Пароль"
+        widget=forms.PasswordInput(attrs={"plaseholder": "Введите пароль"}),
+        label="Пароль",
     )
 
     password_confirm = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Подтвердите пароль'}),
-        label="Подтверждение пароля"
+        widget=forms.PasswordInput(attrs={"placeholder": "Подтвердите пароль"}),
+        label="Подтверждение пароля",
     )
 
     class Meta:
@@ -31,6 +31,7 @@ class UserCreateForm(forms.ModelForm):
             raise ValidationError("Пароли не совпадают.")
 
         return cleaned_data
+
 
 class UserUpdateForm(UserCreateForm):
     pass
