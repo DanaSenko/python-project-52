@@ -21,7 +21,7 @@
             <div class="navbar-nav">
               <a class="nav-link active" href="{% url 'users_list' %}">Пользователи</a>
             {% if user.is_authenticated %}
-              <a class="nav-link" href="#">Статусы</a>
+              <a class="nav-link" href="{% url 'statuses:status_list' %}">Статусы</a>
               <a class="nav-link" href="#">Метки</a>
               <a class="nav-link" href="#">Задачи</a>
               <form action="{% url 'logout' %}" method="post">

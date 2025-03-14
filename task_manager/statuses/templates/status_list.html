@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5"></div>
+    <h1 class="mb-4">Статусы</h1>
+    <a href="{% url 'statuses:status_create' %}">Создать статус</a>
+    <table data-test="urls" class="table table-bordered table-hover text-center">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Изменить/удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for status in statuses %}
+            <tr>
+                <td>{{ status.id }}</td>
+                <td>{{ status.name }}</td>
+                <td>{{ status.created_at}}</td>
+                <td>
+                    <a href="{% url 'statuses:status_update' status.id %}">Изменить</a>
+                    <a href="{% url 'statuses:status_delete' status.id %}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
