@@ -13,3 +13,9 @@ build:
 
 render-start:
 	gunicorn task_manager.wsgi
+
+lint:
+	ruff check task_manager --isolated settings.py users/admin.py 
+
+format:
+	ruff format task_manager
