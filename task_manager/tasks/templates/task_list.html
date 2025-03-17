@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5"></div>
+    <h1 class="mb-4">Задачи</h1>
+    <a href="{% url 'tasks:task_create' %}">Создать задачу</a>
+    <table data-test="urls" class="table table-bordered table-hover text-center">
+        <!-- форма для фильтрации по статусу исполнителю метке или только свои задачи -->
+        <!--  кнопка показать -->
+        <thead class="table-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Автор</th>
+                <th scope="col">Исполнитель</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td>{{ task.name }}</td>
+                <td>{{ task.status }}</td>
+                <td>{{ task.author }}</td>
+                <td>{{ task.worker }}</td>
+                <td>{{ task.created_at}}</td>
+                <td>
+                    <a href="{% url 'tasks:task_update' task.id %}">Изменить</a>
+                    <a href="{% url 'tasks:task_delete' task.id %}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
