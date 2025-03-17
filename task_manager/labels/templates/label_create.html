@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h1>Создать метку</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        {{ form.errors }}
+    </div>
+    {% endif %}
+    <button type="submit">Создать</button>
+</form>
+{% endblock%}

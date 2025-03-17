@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5"></div>
+    <h1 class="mb-4">Статусы</h1>
+    <a href="{% url 'labels:label_create' %}">Создать метку</a>
+    <table data-test="urls" class="table table-bordered table-hover text-center">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Изменить/удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for label in labels %}
+            <tr>
+                <td>{{ label.id }}</td>
+                <td>{{ label.name }}</td>
+                <td>{{ label.created_at}}</td>
+                <td>
+                    <a href="{% url 'labels:label_update' label.id %}">Изменить</a>
+                    <a href="{% url 'labels:label_delete' label.id %}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

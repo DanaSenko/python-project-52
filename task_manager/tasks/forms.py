@@ -20,4 +20,5 @@ class TaskCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["status"].queryset = Status.objects.all()
         self.fields["worker"].queryset = User.objects.all()
