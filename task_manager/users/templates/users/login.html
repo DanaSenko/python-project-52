@@ -1,10 +1,15 @@
 {% extends "layout.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
-<h2>Вход</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Войти</button>
-</form>
+<div class="container mt-4">
+    <h1 class="mb-4">Вход</h1>
+    <div class="card shadow-sm p-4">
+        <form method="post" class="mb-3">
+            {% csrf_token %}
+            <label for="" class="form-label">{{ form.as_p }}</label>
+            <button type="submit" class="btn btn-primary btn-lg w-100">Войти</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
