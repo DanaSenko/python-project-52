@@ -3,10 +3,21 @@
 {% block content %}
 <div class="container mt-5"></div>
     <h1 class="mb-4">Задачи</h1>
-    <a href="{% url 'tasks:task_create' %}">Создать задачу</a>
+    <a href="{% url 'tasks:task_create' %}" class="btn btn-primary btn-lg">Создать задачу</a>
     <table data-test="urls" class="table table-bordered table-hover text-center">
         <!-- форма для фильтрации по статусу исполнителю метке или только свои задачи -->
-        <!--  кнопка показать -->
+        <form method="get" class="filter-form">
+            <div class="mb-3">
+                {% for field in filter.form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label" >{{ field.label }}:</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Фильтровать</button>
+        </form>
+
         <thead class="table-light">
             <tr>
                 <th scope="col">ID</th>
@@ -19,7 +30,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for task in tasks %}
+            {% for task in filter.qs %}
             <tr>
                 <td>{{ task.id }}</td>
                 <td>{{ task.name }}</td>
