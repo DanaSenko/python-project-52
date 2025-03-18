@@ -17,7 +17,7 @@ class Task(models.Model):
     worker = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
-        related_name="assigned_tasks",
+        related_name="assigned_tasks", null=True, blank=True,
         verbose_name="Исполнитель",
     )
     author = models.ForeignKey(
