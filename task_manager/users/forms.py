@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-
+from django.contrib import messages
 
 class UserCreateForm(forms.ModelForm):
     password = forms.CharField(
@@ -28,7 +28,7 @@ class UserCreateForm(forms.ModelForm):
         password_confirm = cleaned_data.get("password_confirm")
 
         if password and password_confirm and password != password_confirm:
-            raise ValidationError("Пароли не совпадают.")
+            messages.error(request, "Пароли не совпадают")
 
         return cleaned_data
 

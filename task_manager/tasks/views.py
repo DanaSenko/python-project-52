@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.shortcuts import redirect
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django_filters.views import FilterView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .filters import TaskFilter
