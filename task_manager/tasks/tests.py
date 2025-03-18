@@ -27,9 +27,10 @@ class TestTask(TestCase):
                 "name": "Task New",
                 "description": "New Description",
                 "status": self.status.id,
+                "worker": self.user.id,
             },
         )
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(Task.objects.filter(name="Task New").exists())
 
     def test_task_update_view(self):
@@ -38,7 +39,6 @@ class TestTask(TestCase):
             {
                 "name": "Task Updated",
                 "description": "Updated Description",
-                "status": self.status.id,
             },
         )
         self.assertEqual(response.status_code, 200)

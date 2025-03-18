@@ -5,25 +5,63 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('statuses', '0001_initial'),
-        ('users', '0002_remove_user_updated_at'),
+        ("statuses", "0001_initial"),
+        ("users", "0002_remove_user_updated_at"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Task',
+            name="Task",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, verbose_name='Имя')),
-                ('description', models.CharField(max_length=255, verbose_name='Описание')),
-                ('point', models.CharField(blank=True, max_length=255, null=True, verbose_name='Метка')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='authored_tasks', to='users.user', verbose_name='Автор')),
-                ('status', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='statuses.status', verbose_name='Статус')),
-                ('worker', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='assigned_tasks', to='users.user', verbose_name='Исполнитель')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, verbose_name="Имя")),
+                (
+                    "description",
+                    models.CharField(max_length=255, verbose_name="Описание"),
+                ),
+                (
+                    "point",
+                    models.CharField(
+                        blank=True, max_length=255, null=True, verbose_name="Метка"
+                    ),
+                ),
+                (
+                    "author",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="authored_tasks",
+                        to="users.user",
+                        verbose_name="Автор",
+                    ),
+                ),
+                (
+                    "status",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="statuses.status",
+                        verbose_name="Статус",
+                    ),
+                ),
+                (
+                    "worker",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="assigned_tasks",
+                        to="users.user",
+                        verbose_name="Исполнитель",
+                    ),
+                ),
             ],
         ),
     ]

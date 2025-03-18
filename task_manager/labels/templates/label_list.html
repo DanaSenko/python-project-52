@@ -3,14 +3,14 @@
 {% block content %}
 <div class="container mt-5"></div>
     <h1 class="mb-4">Метки</h1>
-    <a href="{% url 'labels:label_create' %}" class="btn btn-primary btn-lg">Создать метку</a>
+    <a href="{% url 'labels:label_create' %}" class="btn btn-primary btn-lg mb-4">Создать метку</a>
     <table data-test="urls" class="table table-bordered table-hover text-center">
         <thead class="table-light">
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Имя</th>
                 <th scope="col">Дата создания</th>
-                <th scope="col">Изменить/удалить</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -19,9 +19,13 @@
                 <td>{{ label.id }}</td>
                 <td>{{ label.name }}</td>
                 <td>{{ label.created_at}}</td>
-                <td>
-                    <a href="{% url 'labels:label_update' label.id %}">Изменить</a>
-                    <a href="{% url 'labels:label_delete' label.id %}">Удалить</a>
+                <td class="text-center">
+                    <a href="{% url 'labels:label_update' label.id %}" class="btn btn-sm btn-warning me-2">
+                        <i class="bi bi-pencil"></i> Изменить
+                    </a>
+                    <a href="{% url 'labels:label_delete' label.id %}" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i> Удалить
+                    </a>
                 </td>
             </tr>
             {% endfor %}

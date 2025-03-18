@@ -10,7 +10,7 @@
                 <th scope="col">Имя пользователя</th>
                 <th scope="col">Полное имя</th>
                 <th scope="col">Дата создания</th>
-                <th scope="col">Изменить/удалить</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -20,9 +20,13 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.first_name }} {{ user.last_name }}</td>
                 <td>{{ user.date_joined }}</td>
-                <td>
-                    <a href="{% url 'update_user' user.id %}">Изменить</a>
-                    <a href="{% url 'delete_user' user.id %}">Удалить</a>
+                <td class="text-center">
+                    <a href="{% url 'update_user' user.id %}" class="btn btn-sm btn-warning me-2">
+                        <i class="bi bi-pencil"></i> Изменить
+                    </a>
+                    <a href="{% url 'delete_user' user.id %}" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i> Удалить
+                    </a>
                 </td>
             </tr>
             {% endfor %}
