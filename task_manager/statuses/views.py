@@ -5,6 +5,7 @@ from .models import Status
 from .forms import StatusCreateForm
 from django.contrib import messages
 
+
 # Create your views here.
 class StatusListView(ListView):
     model = Status
@@ -22,6 +23,7 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, "Статус успешно создан")
         return super().form_valid(form)
 
+
 class StatusUpdateView(LoginRequiredMixin, UpdateView):
     model = Status
     form_class = StatusCreateForm
@@ -32,6 +34,7 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(self.request, "Статус успешно изменен")
         return super().form_valid(form)
+
 
 class StatusDeleteView(LoginRequiredMixin, DeleteView):
     model = Status
