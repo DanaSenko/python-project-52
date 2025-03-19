@@ -37,7 +37,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     login_url = "login"
 
     def form_valid(self, form):
-        messages.success(self.request, "Задача успешно изменен")
+        messages.success(self.request, "Задача успешно изменена")
         return super().form_valid(form)
 
 
