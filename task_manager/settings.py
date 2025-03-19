@@ -25,6 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
+
 
 load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -61,31 +63,31 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
+    "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
 
 ROLLBAR = {
-    'access_token': os.getenv("ACCESS_TOCKEN"),
-    'environment': 'development' if DEBUG else 'production',
-    'code_version': '1.0',
-    'root': BASE_DIR,
+    "access_token": os.getenv("ACCESS_TOCKEN"),
+    "environment": "development" if DEBUG else "production",
+    "code_version": "1.0",
+    "root": BASE_DIR,
 }
 
 # Настройка логгера для Rollbar
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'rollbar': {
-            'level': 'ERROR',
-            'class': 'rollbar.logger.RollbarHandler',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "rollbar": {
+            "level": "ERROR",
+            "class": "rollbar.logger.RollbarHandler",
         },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['rollbar'],
-            'level': 'ERROR',
-            'propagate': True,
+    "loggers": {
+        "django": {
+            "handlers": ["rollbar"],
+            "level": "ERROR",
+            "propagate": True,
         },
     },
 }
