@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 import dj_database_url
 from dotenv import load_dotenv
+import rollbar
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -65,11 +65,33 @@ MIDDLEWARE = [
 ]
 
 ROLLBAR = {
-    'access_token': '31a1bfd16564499184e4144bc9821197',
+    'access_token': os.getenv("ACCESS_TOCKEN"),
     'environment': 'development' if DEBUG else 'production',
     'code_version': '1.0',
     'root': BASE_DIR,
 }
+
+# Настройка логгера для Rollbar
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'rollbar': {
+            'level': 'ERROR',
+            'class': 'rollbar.logger.RollbarHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['rollbar'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
+# Инициализация Rollbar
+rollbar.init(**ROLLBAR)
 
 ROOT_URLCONF = "task_manager.urls"
 

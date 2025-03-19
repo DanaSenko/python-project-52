@@ -1,11 +1,15 @@
 from django.views.generic import TemplateView
-from django.shortcuts import render
 from django.http import HttpResponse
+import rollbar
 
-def index(request):
-    a = None
-    a.hello() # Creating an error with an invalid line of code
-    return HttpResponse("Hello, world. You're at the pollapp index.")
+def test_rollbar(request):
+    try:
+        # Генерация тестовой ошибки
+        raise ValueError("This is a test error for Rollbar")
+    except Exception as e:
+        # Отправка ошибки в Rollbar
+        rollbar.report_exc_info()
+        return HttpResponse("An error occurred, but it's been reported to Rollbar.")
 
 class IndexView(TemplateView):
     template_name = "index.html"
