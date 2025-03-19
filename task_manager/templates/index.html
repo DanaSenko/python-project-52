@@ -6,9 +6,31 @@
     <div class="container py-5">
         <div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
             <div class="container py-5 text-center">
-                <h1>Привет от Хэкслета!</h1>
-                <h3>Практические курсы по программированию</h3>
-                <button type="button" class="btn btn-primary btn-lg">Узнать больше</button>
+                <h1 class="display-4">Добро пожаловать в Менеджер задач</h1>
+                <p class="lead">Эффективное управление вашими задачами и проектами</p>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card mb-4 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Создавайте задачи</h5>
+                                <p class="card-text">Легко создавайте и управляйте своими задачами.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-4 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Просматривайте задачи</h5>
+                                <p class="card-text">Организуйте и отслеживайте свои задачи.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <p>Присоединяйтесь к нам и начните управлять своими задачами уже сегодня!</p>
+                    <a href="{% url 'create_user' %}" class="btn btn-success btn-lg">Зарегистрироваться</a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg">Войти</a>
+                </div>
             </div>
         </div>
     </div>
