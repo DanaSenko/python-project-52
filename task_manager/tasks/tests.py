@@ -16,7 +16,7 @@ class TestTask(TestCase):
             name="Test Task",
             description="Test Description",
             status=self.status,
-            author=self.user
+            author=self.user,
         )
 
     def test_task_list_view(self):
@@ -63,16 +63,14 @@ class TestTask(TestCase):
         self.assertEqual(self.task.name, "Task Updated")
 
     def test_task_delete_view(self):
-        response = self.client.post(
-            reverse("tasks:task_delete", args=[self.task.pk])
-        )
-        self.assertEqual(response.status_code, 302)  # Redirect after successful deletion
+        response = self.client.post(reverse("tasks:task_delete", args=[self.task.pk]))
+        self.assertEqual(
+            response.status_code, 302
+        )  # Redirect after successful deletion
         self.assertFalse(Task.objects.filter(pk=self.task.pk).exists())
 
     def test_task_delete_by_non_author(self):
         self.client.login(username="other", password="12345")
-        response = self.client.post(
-            reverse("tasks:task_delete", args=[self.task.pk])
-        )
+        response = self.client.post(reverse("tasks:task_delete", args=[self.task.pk]))
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Task.objects.filter(pk=self.task.pk).exists())

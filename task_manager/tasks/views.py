@@ -50,8 +50,10 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         task = self.get_object()
         if task.author != request.user:
-            messages.error(request,
-                "Вы не можете удалить эту задачу, так как вы не являетесь ее автором.",)
+            messages.error(
+                request,
+                "Вы не можете удалить эту задачу, так как вы не являетесь ее автором.",
+            )
             return redirect(
                 "tasks:task_list"
             )  # Перенаправление на страницу списка пользователей
