@@ -9,10 +9,14 @@ class TestTask(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user(username="testuser", password="12345")
+        self.other_user = User.objects.create_user(username="other", password="12345")
         self.client.login(username="testuser", password="12345")
-        self.status = Status.objects.create(name="Test Status")
-        self.task = Task.objects.create(
-            name="Test Task", status=self.status, author=self.user
+        self.status = Status.objects.create(name="Test Status")  # type: ignore
+        self.task = Task.objects.create(  # type: ignore
+            name="Test Task",
+            description="Test Description",
+            status=self.status,
+            author=self.user
         )
 
     def test_task_list_view(self):
@@ -26,12 +30,23 @@ class TestTask(TestCase):
             {
                 "name": "Task New",
                 "description": "New Description",
-                "status": self.status.id,
-                "worker": self.user.id,
+                "status": self.status.name,
+                "worker": self.other_user.username,
             },
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(Task.objects.filter(name="Task New").exists())
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Task.objects.filter(name="Task New").exists())  # type: ignore
+
+    def test_task_create_invalid_data(self):
+        response = self.client.post(
+            reverse("tasks:task_create"),
+            {
+                "name": "",  # Invalid: empty name
+                "status": self.status.id,
+            },
+        )
+        self.assertEqual(response.status_code, 200)  # Returns to form
+        self.assertFalse(Task.objects.filter(name="").exists())
 
     def test_task_update_view(self):
         response = self.client.post(
@@ -39,15 +54,25 @@ class TestTask(TestCase):
             {
                 "name": "Task Updated",
                 "description": "Updated Description",
+                "status": self.status.name,
+                "worker": self.other_user.username,
             },
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.task.refresh_from_db()
         self.assertEqual(self.task.name, "Task Updated")
 
     def test_task_delete_view(self):
         response = self.client.post(
-            reverse("tasks:task_delete", args=[self.task.pk]), follow=True
+            reverse("tasks:task_delete", args=[self.task.pk])
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(Task.objects.filter(name="Test Task").exists())
+        self.assertEqual(response.status_code, 302)  # Redirect after successful deletion
+        self.assertFalse(Task.objects.filter(pk=self.task.pk).exists())
+
+    def test_task_delete_by_non_author(self):
+        self.client.login(username="other", password="12345")
+        response = self.client.post(
+            reverse("tasks:task_delete", args=[self.task.pk])
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Task.objects.filter(pk=self.task.pk).exists())
