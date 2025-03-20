@@ -119,7 +119,7 @@ WSGI_APPLICATION = "task_manager.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-ENVIRONMENT = os.getenv('ENVIRONMENT')
+ENVIRONMENT = os.getenv('ENVIRONMENT', "development")
 if ENVIRONMENT == 'development':
     # Настройки для разработки
     DATABASES = {
