@@ -9,13 +9,13 @@ User = get_user_model()
 
 
 class TaskCreateForm(forms.ModelForm):
-    name = forms.CharField(max_length=100, label="Имя")
-    description = forms.CharField(widget=forms.Textarea, label="Описание")
+    name = forms.CharField(max_length=100, label="Имя", required=True)
+    description = forms.CharField(widget=forms.Textarea, label="Описание", required=False)
     status = forms.ModelChoiceField(
-        queryset=Status.objects.all(), label="Статус", to_field_name="name"
+        queryset=Status.objects.all(), label="Статус", to_field_name="name", required=True
     )
     worker = forms.ModelChoiceField(
-        queryset=User.objects.all(), label="Исполнитель", to_field_name="username"
+        queryset=User.objects.all(), label="Исполнитель", to_field_name="username", required=False
     )
     label = forms.ModelMultipleChoiceField(
         queryset=Label.objects.all(),
