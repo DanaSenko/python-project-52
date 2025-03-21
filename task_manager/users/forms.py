@@ -16,7 +16,7 @@ class UserCreateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["username", "first_name", "last_name"]
+        fields = ["username", "first_name", "last_name",]
         labels = {
             "username": "Имя пользователя",
             "first_name": "Имя",
@@ -29,7 +29,7 @@ class UserCreateForm(forms.ModelForm):
         password_confirm = cleaned_data.get("password_confirm")
 
         if password and password_confirm and password != password_confirm:
-            messages.error(request, "Пароли не совпадают")
+            self.add_error("password_confirm", "Пароли не совпадают")
 
         return cleaned_data
 
