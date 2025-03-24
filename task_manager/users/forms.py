@@ -3,12 +3,12 @@ from django.contrib.auth.models import User
 
 
 class UserCreateForm(forms.ModelForm):
-    password = forms.CharField(
+    password1= forms.CharField(
         widget=forms.PasswordInput(attrs={"plaseholder": "Введите пароль"}),
         label="Пароль",
     )
 
-    password_confirm = forms.CharField(
+    password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "Подтвердите пароль"}),
         label="Подтверждение пароля",
     )
@@ -24,10 +24,10 @@ class UserCreateForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        password_confirm = cleaned_data.get("password_confirm")
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
 
-        if password and password_confirm and password != password_confirm:
+        if password1 and password2 and password1 != password2:
             self.add_error("password_confirm", "Пароли не совпадают")
         return cleaned_data
 

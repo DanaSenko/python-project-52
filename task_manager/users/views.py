@@ -27,7 +27,7 @@ class CreateUserView(CreateView):  # user registaration and redirect to login pa
     def form_valid(self, form):
         if form.is_valid():
             user = form.save(commit=False)
-            user.set_password(form.cleaned_data["password"])
+            user.set_password(form.cleaned_data["password1"])
             user.save()
             return redirect("login")
         return render(request, "users/create_user.html", {"form": form})
@@ -43,7 +43,7 @@ class UpdateUserView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         if form.cleaned_data["password"]:
-            self.object.set_password(form.cleaned_data["password"])
+            self.object.set_password(form.cleaned_data["password1"])
         messages.success(self.request, "Пользователь успешно изменен")
         return super().form_valid(form)
 
