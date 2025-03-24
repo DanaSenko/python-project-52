@@ -1,26 +1,32 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
 
 
 class UserTests(TestCase):
     """Build new user before each test"""
 
     def setUp(self):
-        self.user = User.objects.create_user(
-            username="testuser", password="testpass123"
+        self.user = get_user_model().objects.create_user(
+            username="testuser", first_name="Test", last_name="User"
         )
+        self.client = Client()
 
     def test_user_create(self):
         response = self.client.post(
             reverse("create_user"),
             {
                 "username": "newuser",
-                "password1": "complexpassword123",
-                "password2": "complexpassword123",
+                "first_name": "New",
+                "last_name": "User",
+                "password": "complexpassword123",
+                "password_confirm": "complexpassword123",
             },
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
+        users = get_user_model().objects.all()
+        self.assertEqual(users.count(), 2)
 
     def test_user_update(self):
         self.client.login(username="testuser", password="testpass123")
@@ -33,7 +39,7 @@ class UserTests(TestCase):
                 "password": "newpassword",
             },
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_user_delete(self):
         self.client.login(username="testuser", password="testpass123")

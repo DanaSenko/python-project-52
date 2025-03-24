@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, FormView
+from django.views.generic.edit import CreateView
 from .forms import UserCreateForm, UserUpdateForm
 from .mixins import UserPermissionMixin
 from django.contrib import messages
@@ -17,19 +18,20 @@ class UserListView(ListView):  # shows all users
     context_object_name = "users"
 
 
-class CreateUserView(View):  # user registaration and redirect to login page
-    def get(self, request):
-        form = UserCreateForm()
-        return render(request, "users/create_user.html", {"form": form})
+class CreateUserView(CreateView):  # user registaration and redirect to login page
+    model = User
+    form_class = UserCreateForm
+    success_url = reverse_lazy("login")
+    template_name = 'users/create_user.html'
 
-    def post(self, request):
-        form = UserCreateForm(request.POST)
+    def form_valid(self, form):
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data["password"])
             user.save()
             return redirect("login")
         return render(request, "users/create_user.html", {"form": form})
+
 
 
 class UpdateUserView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
