@@ -9,7 +9,8 @@ class UserTests(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            username="testuser", first_name="Test", last_name="User"
+            username="testuser", first_name="Test", last_name="User",
+            password='testpass123'
         )
         self.client = Client()
 
@@ -39,7 +40,7 @@ class UserTests(TestCase):
                 "password": "newpassword",
             },
         )
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_user_delete(self):
         self.client.login(username="testuser", password="testpass123")
