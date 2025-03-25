@@ -1,15 +1,9 @@
-{% extends 'layout.html' %}
-
-{% block content %}
+{% extends 'layout.html' %} {% block content %}
 <h1>Изменить статус</h1>
 <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    {% if form.errors %}
-    <div class="alert alert-danger">
-        {{ form.errors }}
-    </div>
+    {% csrf_token %} {{ form.as_p }} {% if form.errors %}
+    <div class="alert alert-danger">{{ form.errors }}</div>
     {% endif %}
-    <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
+    <button type="submit" class="btn btn-primary btn-lg">Измениить</button>
 </form>
 {% endblock%}
