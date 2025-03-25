@@ -7,7 +7,7 @@ class UserPermissionMixin:
         # Проверяем, авторизован ли пользователь
         if not request.user.is_authenticated:
             messages.error(
-                request, "Для редактирования пользователя необходима авторизация."
+                request, "Вы не авторизованы! Пожалуйста, выполните вход."
             )
             return redirect("login")  # Перенаправление на страницу входа
 
