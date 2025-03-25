@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Label
+from task_manager.tasks.models import Task
 from .forms import LabelCreateForm
 from django.contrib import messages
 
@@ -42,12 +43,9 @@ class LabelDeleteView(DeleteView):
     success_url = reverse_lazy("labels:label_list")
     # нельзя удалить метку если она прикреплена хотя бы к одной задаче
 
-    def delete(self, request, *args, **kwargs):
+    def form_valid(self, form):
         label = self.get_object()
-        if label.task_set.exists():
-            messages.error(
-                request, "Невозможно удалить метку, так как она связана с задачами"
-            )
-            return redirect("labels:label_list")
-        massages.success(request, "Метка успешно удалена")
-        return super().delete(request, *args, **kwargs)
+        if Task.objects.filter(label=label).exists():
+            messages.error(self.request, "Невозможно удалить метку, потому что она используется")
+            return redirect(self.success_url)
+        return super().form_valid(form)
