@@ -14,7 +14,7 @@ class UserPermissionMixin:
         # Проверяем, пытается ли пользователь редактировать свой профиль
         user_to_edit = self.get_object()
         if user_to_edit != request.user:
-            messages.error(request, "Вы не можете редактировать чужой профиль.")
+            messages.error(request, "У вас нет прав для изменения другого пользователя.")
             return redirect(
                 "users_list"
             )  # Перенаправление на страницу списка пользователей
