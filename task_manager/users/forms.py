@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-
+from django.contrib.auth.forms import AuthenticationForm
 
 class UserCreateForm(forms.ModelForm):
     password1= forms.CharField(
@@ -34,3 +34,10 @@ class UserCreateForm(forms.ModelForm):
 
 class UserUpdateForm(UserCreateForm):
     pass
+
+
+class CustomAuthenticationForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["username"].label = "Имя пользователя"
+        self.fields["password"].label = "Пароль"
