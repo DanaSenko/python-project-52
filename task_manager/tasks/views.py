@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django_filters.views import FilterView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .filters import TaskFilter
@@ -17,34 +18,40 @@ class TaskListView(FilterView):
     context_object_name = "tasks"
 
 
-class TaskCreateView(LoginRequiredMixin, CreateView):
+class TaskDetailView(LoginRequiredMixin, DetailView):
+    model = Task
+    context_object_name = "task"
+    template_name = "task_details.html"
+    login_url = "login"
+
+
+class TaskCreateView(LoginRequiredMixin, CreateView, SuccessMessageMixin):
     model = Task
     form_class = TaskCreateForm
     template_name = "task_create.html"
+    success_message = "Задача успешно создана"
     success_url = reverse_lazy("tasks:task_list")
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        messages.success(self.request, "Задача успешно создана")
         return super().form_valid(form)
 
 
-class TaskUpdateView(LoginRequiredMixin, UpdateView):
+class TaskUpdateView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
     model = Task
     form_class = TaskCreateForm
     success_url = reverse_lazy("tasks:task_list")
+    success_message = "Задача успешно изменена"
     template_name = "task_update.html"
     login_url = "login"
 
-    def form_valid(self, form):
-        messages.success(self.request, "Задача успешно изменена")
-        return super().form_valid(form)
 
 
-class TaskDeleteView(LoginRequiredMixin, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, DeleteView, SuccessMessageMixin):
     model = Task
     template_name = "task_delete.html"
     success_url = reverse_lazy("tasks:task_list")
+    success_message = "Задача успешно удалена"
     login_url = "login"
 
     def post(self, request, *args, **kwargs):
@@ -52,10 +59,9 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
         if task.author != request.user:
             messages.error(
                 request,
-                "Вы не можете удалить эту задачу, так как вы не являетесь ее автором.",
+                "Задачу может удалить только ее автор",
             )
             return redirect(
                 "tasks:task_list"
             )  # Перенаправление на страницу списка пользователей
-        messages.success(request, "Задача успешно удалена.")
         return super().post(request, *args, **kwargs)
