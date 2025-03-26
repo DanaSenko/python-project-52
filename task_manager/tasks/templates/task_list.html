@@ -39,7 +39,7 @@ class="card shadow-sm p-4"
             {% for task in filter.qs %}
             <tr>
                 <td>{{ task.id }}</td>
-                <td>{{ task.name }}</td>
+                <td><a href="{% url 'tasks:task_details' task.id %}">{{ task.name }}</td>
                 <td>{{ task.status }}</td>
                 <td>{{ task.author }}</td>
                 <td>{{ task.worker }}</td>
