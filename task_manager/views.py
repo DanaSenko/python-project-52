@@ -1,6 +1,7 @@
 import rollbar
 from django.contrib import messages
 from django.contrib.auth.views import LoginView as DjangoLoginView
+from django.contrib.auth.views import LogoutView as DjangoLogoutView
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -20,11 +21,12 @@ class LoginView(DjangoLoginView):
         return super().form_valid(form)
 
 
-class LogoutView(View):
-    def post(self, request, *args, **kwargs):
-        logout(request)
+class LogoutView(DjangoLogoutView):
+    next_page = reverse_lazy("index")
+
+    def dispatch(self, request, *args, **kwargs):
         messages.success(request, "Вы разлогинены")
-        return redirect("index")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class IndexView(TemplateView):
