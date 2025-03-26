@@ -6,7 +6,7 @@ class UserPermissionMixin:
     def dispatch(self, request, *args, **kwargs):
         # Проверяем, авторизован ли пользователь
         if not request.user.is_authenticated:
-            messages.error(
+            messages.warning(
                 request, "Вы не авторизованы! Пожалуйста, выполните вход."
             )
             return redirect("login")  # Перенаправление на страницу входа
@@ -14,7 +14,7 @@ class UserPermissionMixin:
         # Проверяем, пытается ли пользователь редактировать свой профиль
         user_to_edit = self.get_object()
         if user_to_edit != request.user:
-            messages.error(request, "У вас нет прав для изменения другого пользователя.")
+            messages.warning(request, "У вас нет прав для изменения другого пользователя.")
             return redirect(
                 "users_list"
             )  # Перенаправление на страницу списка пользователей
