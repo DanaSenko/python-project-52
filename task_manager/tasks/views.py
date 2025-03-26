@@ -1,13 +1,14 @@
-from django.urls import reverse_lazy
-from django.shortcuts import redirect
-from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
-from django_filters.views import FilterView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from .filters import TaskFilter
-from .models import Task
-from .forms import TaskCreateForm
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
+from django_filters.views import FilterView
+
+from .filters import TaskFilter
+from .forms import TaskCreateForm
+from .models import Task
 
 
 # Create your views here.
@@ -44,7 +45,6 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
     success_message = "Задача успешно изменена"
     template_name = "task_update.html"
     login_url = "login"
-
 
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView, SuccessMessageMixin):

@@ -1,12 +1,13 @@
-from django.views.generic import TemplateView
-from django.http import HttpResponse
 import rollbar
-from task_manager.users.forms import CustomAuthenticationForm
-from django.views import View
+from django.contrib import messages
 from django.contrib.auth.views import LoginView as DjangoLoginView
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.contrib import messages
+from django.views import View
+from django.views.generic import TemplateView
+
+from task_manager.users.forms import CustomAuthenticationForm
 
 
 class LoginView(DjangoLoginView):

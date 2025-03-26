@@ -1,9 +1,10 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
+
 
 class UserCreateForm(forms.ModelForm):
-    password1= forms.CharField(
+    password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={"plaseholder": "Введите пароль"}),
         label="Пароль",
     )
@@ -15,7 +16,11 @@ class UserCreateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["username", "first_name", "last_name",]
+        fields = [
+            "username",
+            "first_name",
+            "last_name",
+        ]
         labels = {
             "username": "Имя пользователя",
             "first_name": "Имя",

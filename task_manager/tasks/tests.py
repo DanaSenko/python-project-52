@@ -1,8 +1,10 @@
-from django.test import TestCase, Client
-from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Task
+from django.test import Client, TestCase
+from django.urls import reverse
+
 from task_manager.statuses.models import Status
+
+from .models import Task
 
 
 class TestTask(TestCase):

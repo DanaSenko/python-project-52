@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, UpdateView, DeleteView
+from django.views.generic import DeleteView, ListView, UpdateView
 from django.views.generic.edit import CreateView
+
 from .forms import UserCreateForm, UserUpdateForm
 from .mixins import UserPermissionMixin
-from django.contrib import messages
 
 
 class UserListView(ListView):  # shows all users
@@ -19,7 +20,7 @@ class CreateUserView(CreateView):  # user registaration and redirect to login pa
     model = User
     form_class = UserCreateForm
     success_url = reverse_lazy("login")
-    template_name = 'users/create_user.html'
+    template_name = "users/create_user.html"
 
     def form_valid(self, form):
         if form.is_valid():
@@ -28,7 +29,6 @@ class CreateUserView(CreateView):  # user registaration and redirect to login pa
             user.save()
             return redirect("login")
         return render(request, "users/create_user.html", {"form": form})
-
 
 
 class UpdateUserView(UserPermissionMixin, LoginRequiredMixin, UpdateView):

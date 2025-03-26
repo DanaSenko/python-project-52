@@ -1,7 +1,6 @@
-from django.test import TestCase, Client
-from django.urls import reverse
 from django.contrib.auth import get_user_model
-
+from django.test import Client, TestCase
+from django.urls import reverse
 
 
 class UserTests(TestCase):
@@ -9,8 +8,10 @@ class UserTests(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            username="testuser", first_name="Test", last_name="User",
-            password='testpass123',
+            username="testuser",
+            first_name="Test",
+            last_name="User",
+            password="testpass123",
         )
         self.client = Client()
 

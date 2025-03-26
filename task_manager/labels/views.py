@@ -1,11 +1,13 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Label
-from task_manager.tasks.models import Task
-from .forms import LabelCreateForm
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+
+from task_manager.tasks.models import Task
+
+from .forms import LabelCreateForm
+from .models import Label
 
 
 # Create your views here.
@@ -46,6 +48,8 @@ class LabelDeleteView(DeleteView):
     def form_valid(self, form):
         label = self.get_object()
         if Task.objects.filter(label=label).exists():
-            messages.error(self.request, "Невозможно удалить метку, потому что она используется")
+            messages.error(
+                self.request, "Невозможно удалить метку, потому что она используется"
+            )
             return redirect(self.success_url)
         return super().form_valid(form)
