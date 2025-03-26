@@ -21,12 +21,14 @@ class CreateUserView(CreateView):  # user registaration and redirect to login pa
     form_class = UserCreateForm
     success_url = reverse_lazy("login")
     template_name = "users/create_user.html"
+    success_message = "Пользователь успешно зарегистрирован"
 
     def form_valid(self, form):
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data["password1"])
             user.save()
+            messages.success(self.request, "Пользователь успешно зарегистрирован")
             return redirect("login")
         return render(request, "users/create_user.html", {"form": form})
 
