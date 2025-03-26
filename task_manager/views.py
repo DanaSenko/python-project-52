@@ -3,20 +3,18 @@ from django.http import HttpResponse
 import rollbar
 from task_manager.users.forms import CustomAuthenticationForm
 from django.views import View
-from django.views.generic import FormView
-from django.contrib.auth import login, logout
+from django.contrib.auth.views import LoginView as DjangoLoginView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib import messages
 
 
-class LoginView(FormView):
+class LoginView(DjangoLoginView):
     form_class = CustomAuthenticationForm
     template_name = "login.html"
-    success_url = reverse_lazy("index")
+    next_page = reverse_lazy("index")
 
     def form_valid(self, form):
-        login(self.request, form.get_user())
         messages.success(self.request, "Вы залогинены")
         return super().form_valid(form)
 

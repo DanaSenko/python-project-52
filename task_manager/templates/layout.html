@@ -69,7 +69,7 @@
             </div>
         </nav>
 
-        {% block sidebar %} {% if messages %}
+        {% block sidebar %}
         <div class="container mt-4">
             {% for message in messages %}
             <div
@@ -80,7 +80,7 @@
             </div>
             {% endfor %}
         </div>
-        {% endif %} {% endblock sidebar %}
+        {% endblock sidebar %}
 
         <main class="flex-grow-1">
             <div id="content" class="container-lg mt-3">
