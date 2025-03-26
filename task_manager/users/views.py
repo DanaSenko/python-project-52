@@ -1,13 +1,10 @@
-from django.db.models import fields
 from django.shortcuts import render, redirect
-from django.views import View
 from django.contrib.auth.models import User
-from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import ListView, UpdateView, DeleteView, FormView
+from django.views.generic import ListView, UpdateView, DeleteView
 from django.views.generic.edit import CreateView
-from .forms import UserCreateForm, UserUpdateForm, CustomAuthenticationForm
+from .forms import UserCreateForm, UserUpdateForm
 from .mixins import UserPermissionMixin
 from django.contrib import messages
 
@@ -53,21 +50,3 @@ class DeleteUserView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
     template_name = "users/delete_user.html"
     success_url = reverse_lazy("users_list")
     login_url = "login"
-
-
-class LoginView(FormView):
-    form_class = CustomAuthenticationForm
-    template_name = "users/login.html"
-    success_url = reverse_lazy("index")
-
-    def form_valid(self, form):
-        login(self.request, form.get_user())
-        messages.success(self.request, "Вы залогинены")
-        return super().form_valid(form)
-
-
-class LogoutView(View):
-    def post(self, request, *args, **kwargs):
-        logout(request)
-        messages.success(request, "Вы разлогинены")
-        return redirect("index")
