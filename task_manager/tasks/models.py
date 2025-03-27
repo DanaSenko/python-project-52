@@ -9,10 +9,10 @@ User = get_user_model()
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=255, blank=False, null=False, verbose_name="Имя")
+    name = models.CharField(max_length=255, verbose_name="Имя")
     description = models.TextField(verbose_name="Описание")
     status = models.ForeignKey(
-        Status, on_delete=models.PROTECT, blank=False, null=False, verbose_name="Статус"
+        Status, on_delete=models.PROTECT, verbose_name="Статус"
     )
     worker = models.ForeignKey(
         User,
