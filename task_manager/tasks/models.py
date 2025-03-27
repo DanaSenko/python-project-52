@@ -29,7 +29,7 @@ class Task(models.Model):
         verbose_name="Автор",
     )
     label = models.ManyToManyField(
-        Label, max_length=255, blank=True, null=True, verbose_name="Метка"
+        Label, blank=True, null=True, verbose_name="Метка"
     )
     created_at = models.DateTimeField(auto_now_add=True)
 

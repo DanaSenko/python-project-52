@@ -41,8 +41,8 @@ class="card shadow-sm p-4"
                 <td>{{ task.id }}</td>
                 <td><a href="{% url 'tasks:task_details' task.id %}">{{ task.name }}</td>
                 <td>{{ task.status }}</td>
-                <td>{{ task.author.first_name }} {{ task.author.last_name }}</td>
-                <td>{{ task.worker.first_name }} {{ task.worker.last_name }}</td>
+                <td>{{ task.author.get_full_name }}</td>
+                <td>{{ task.worker.get_full_name }}</td>
                 <td>{{ task.created_at}}</td>
                 <td class="text-center">
                     <a href="{% url 'tasks:task_update' task.id %}" class="btn btn-sm btn-warning me-2">
