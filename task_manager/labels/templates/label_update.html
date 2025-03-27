@@ -1,13 +1,11 @@
-{% extends 'layout.html' %}
-
-{% block content %}
+{% extends 'layout.html' %} {% load widget_tweaks %} {% block content %}
 <h1>Изменить метку</h1>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    {% if form.errors %}
-    <div class="alert alert-danger">
-        {{ form.errors }}
+    <div class="form-group mb-3">
+        <label for="{{ form.name.id_for_label }}">Имя</label>
+
+        {{ form.name|add_class:'form-control-small' }}
     </div>
     {% endif %}
     <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
