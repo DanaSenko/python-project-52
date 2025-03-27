@@ -41,7 +41,7 @@ class UpdateUserView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     login_url = "login"
 
     def form_valid(self, form):
-        if form.cleaned_data["password"]:
+        if form.cleaned_data["password1"]:
             self.object.set_password(form.cleaned_data["password1"])
         messages.success(self.request, "Пользователь успешно изменен")
         return super().form_valid(form)
