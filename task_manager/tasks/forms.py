@@ -10,25 +10,32 @@ User = get_user_model()
 
 
 class TaskCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # отображение исполнителя
+        self.fields["worker"].label_from_instance = (
+            lambda obj: f"{obj.first_name} {obj.last_name}"
+        )
+
     name = forms.CharField(max_length=100, label="Имя", required=True)
     description = forms.CharField(
         widget=forms.Textarea, label="Описание", required=False
     )
     status = forms.ModelChoiceField(
-        queryset=Status.objects.all(),
+        queryset=Status.objects.get_queryset(),
         label="Статус",
-        to_field_name="name",
         required=True,
     )
+
     worker = forms.ModelChoiceField(
         queryset=User.objects.all(),
         label="Исполнитель",
         widget=forms.Select,
-        to_field_name="username",
         required=False,
     )
+
     label = forms.ModelMultipleChoiceField(
-        queryset=Label.objects.all(),
+        queryset=Label.objects.get_queryset(),
         widget=forms.SelectMultiple,
         required=False,
         label="Метка",
@@ -37,8 +44,3 @@ class TaskCreateForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ["name", "description", "status", "worker", "label"]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["status"].queryset = Status.objects.all()
-        self.fields["worker"].queryset = User.objects.all()
