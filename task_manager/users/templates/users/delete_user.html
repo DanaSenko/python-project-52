@@ -1,11 +1,8 @@
-{% extends 'layout.html'%}
-
-{% block content %}
+{% extends 'layout.html'%} {% block content %}
 <h2>Удаление пользователя</h2>
 <p>Вы уверены, что хотите удалить пользователя {{ object.username }}?</p>
 <form method="post">
     {% csrf_token %}
-    <button type="submit" class="btn btn-primary btn-lg">Удалить</button>
+    <button type="submit" class="btn btn-primary btn-lg">Да, удалить</button>
 </form>
 {% endblock %}
-
