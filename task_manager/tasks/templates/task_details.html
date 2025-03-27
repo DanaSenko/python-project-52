@@ -11,10 +11,14 @@
         <hr />
         <div class="container">
             <div class="row p-1">
-                <div class="col">{{ task.author }}</div>
+                <div class="col">
+                    {{ task.author.first_name }} {{ task.author.last_name }}
+                </div>
             </div>
             <div class="row p-1">
-                <div class="col">{{ task.executor }}</div>
+                <div class="col">
+                    {{ task.worker.first_name }} {{ task.worker.last_name }}
+                </div>
             </div>
             <div class="row p-1">
                 <div class="col">{{ task.status }}</div>
