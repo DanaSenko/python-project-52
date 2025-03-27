@@ -1,4 +1,5 @@
 import django_filters
+from django import forms
 from django.contrib.auth import get_user_model
 
 from task_manager.labels.models import Label
@@ -18,11 +19,12 @@ class TaskFilter(django_filters.FilterSet):
     )
     label = django_filters.ModelMultipleChoiceFilter(
         queryset=Label.objects.all(),
-        label="Метки",
+        label="Метка",
     )
     self_tasks = django_filters.BooleanFilter(
         method="filter_self_tasks",
-        label="Только мои задачи",
+        label="Только свои задачи",
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
     )
 
     class Meta:

@@ -9,14 +9,14 @@ class="card shadow-sm p-4"
     <div class="card shadow-sm p-4 mb-4">
         <!-- форма для фильтрации по статусу исполнителю метке или только свои задачи -->
         <form method="get" class="filter-form mb-4">
-            <div class="col">
                 {% for field in filter.form %}
                     <div class="col-md-4 mb-3">
-                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }} </label>
-                        {{ field|add_class:"form-control" }}
+                            <label for="{{ field.id_for_label }}" class="form-label mb-1">
+                                {{ field.label }}
+                            </label>
+                            {{ field|add_class:"form-control" }}
                     </div>
                 {% endfor %}
-            </div>
             <div>
                 <button type="submit" class="btn btn-primary">Показать</button>
             </div>
