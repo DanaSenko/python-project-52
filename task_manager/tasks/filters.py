@@ -14,7 +14,7 @@ class TaskFilter(django_filters.FilterSet):
     )
     worker = django_filters.ModelChoiceFilter(
         queryset=User.objects.all(),
-        label="Испольнитель",
+        label="Исполнитель",
     )
     label = django_filters.ModelMultipleChoiceFilter(
         queryset=Label.objects.all(),

@@ -10,7 +10,7 @@
             <div class="col">
                 {% for field in form %}
                 <div class="col-md-4 mb-3">
-                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}:</label>
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }} </label>
                     {{ field|add_class:"form-control" }}
                 </div>
                 {% endfor %}
