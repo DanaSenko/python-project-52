@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, ListView, UpdateView
@@ -47,8 +48,22 @@ class UpdateUserView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class DeleteUserView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
+class DeleteUserView(
+    UserPermissionMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView
+):
     model = User
     template_name = "users/delete_user.html"
     success_url = reverse_lazy("users_list")
+    success_message = "Пользователь успешно удален"
     login_url = "login"
+
+    def post(self, request, *args, **kwargs):
+        user_to_delete = self.get_object()
+        try:
+            self.ususer_to_delete.delete()
+        except:
+            messages.warning(
+                request, "Невозможно удалить пользователя, потому что он используется"
+            )
+            return redirect("users_list")
+        return super().post(request, *args, **kwargs)

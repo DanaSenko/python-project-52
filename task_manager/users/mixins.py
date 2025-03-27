@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import redirect
 
+from task_manager.tasks.models import Task
+
 
 class UserPermissionMixin:
     def dispatch(self, request, *args, **kwargs):
@@ -15,8 +17,5 @@ class UserPermissionMixin:
             messages.warning(
                 request, "У вас нет прав для изменения другого пользователя."
             )
-            return redirect(
-                "users_list"
-            )  # Перенаправление на страницу списка пользователей
-
+            return redirect("users_list")
         return super().dispatch(request, *args, **kwargs)

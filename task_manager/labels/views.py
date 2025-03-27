@@ -1,6 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
@@ -17,38 +17,32 @@ class LabelListView(ListView):
     context_object_name = "labels"
 
 
-class LabelCreateView(CreateView):
+class LabelCreateView(SuccessMessageMixin, CreateView):
     model = Label
     form_class = LabelCreateForm
     template_name = "label_create.html"
     success_url = reverse_lazy("labels:label_list")
-
-    def form_valid(self, form):
-        messages.success(self.request, "Метка успешно создана")
-        return super().form_valid(form)
+    success_message = "Метка успешно создана"
 
 
-class LabelUpdateView(UpdateView):
+class LabelUpdateView(SuccessMessageMixin, UpdateView):
     model = Label
     form_class = LabelCreateForm
     template_name = "label_update.html"
     success_url = reverse_lazy("labels:label_list")
-
-    def form_valid(self, form):
-        messages.success(self.request, "Метка успешно изменена")
-        return super().form_valid(form)
+    success_message = "Метка успешно изменена"
 
 
-class LabelDeleteView(DeleteView):
+class LabelDeleteView(SuccessMessageMixin, DeleteView):
     model = Label
     template_name = "label_delete.html"
     success_url = reverse_lazy("labels:label_list")
-    # нельзя удалить метку если она прикреплена хотя бы к одной задаче
+    success_message = "Метка успешно удалена"
 
     def form_valid(self, form):
         label = self.get_object()
         if Task.objects.filter(label=label).exists():
-            messages.error(
+            messages.warning(
                 self.request, "Невозможно удалить метку, потому что она используется"
             )
             return redirect(self.success_url)

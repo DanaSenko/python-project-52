@@ -26,7 +26,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     login_url = "login"
 
 
-class TaskCreateView(LoginRequiredMixin, CreateView, SuccessMessageMixin):
+class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
     form_class = TaskCreateForm
     template_name = "task_create.html"
@@ -38,7 +38,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView, SuccessMessageMixin):
         return super().form_valid(form)
 
 
-class TaskUpdateView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Task
     form_class = TaskCreateForm
     success_url = reverse_lazy("tasks:task_list")
@@ -47,7 +47,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
     login_url = "login"
 
 
-class TaskDeleteView(LoginRequiredMixin, DeleteView, SuccessMessageMixin):
+class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Task
     template_name = "task_delete.html"
     success_url = reverse_lazy("tasks:task_list")
