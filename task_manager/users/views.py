@@ -2,11 +2,12 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.db.models import Q
 from django.views.generic import DeleteView, ListView, UpdateView
 from django.views.generic.edit import CreateView
+
 from task_manager.tasks.models import Task
 
 from .forms import UserCreateForm, UserUpdateForm
@@ -61,7 +62,9 @@ class DeleteUserView(
 
     def post(self, request, *args, **kwargs):
         user_to_delete = self.get_object()
-        if Task.objects.filter(Q(author=user_to_delete) | Q(worker=user_to_delete)).exists():
+        if Task.objects.filter(
+            Q(author=user_to_delete) | Q(worker=user_to_delete)
+        ).exists():
             messages.warning(
                 request, "Невозможно удалить пользователя, потому что он используется"
             )
