@@ -38,7 +38,7 @@ class TaskCreateForm(forms.ModelForm):
         queryset=Label.objects.get_queryset(),
         widget=forms.SelectMultiple,
         required=False,
-        label="Метка",
+        label="Метки",
     )
 
     class Meta:
