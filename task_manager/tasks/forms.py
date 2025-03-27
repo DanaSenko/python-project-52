@@ -23,6 +23,7 @@ class TaskCreateForm(forms.ModelForm):
     worker = forms.ModelChoiceField(
         queryset=User.objects.all(),
         label="Исполнитель",
+        widget=forms.Select,
         to_field_name="username",
         required=False,
     )
