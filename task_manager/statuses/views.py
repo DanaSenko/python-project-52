@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -17,34 +18,29 @@ class StatusListView(ListView):
     context_object_name = "statuses"
 
 
-class StatusCreateView(LoginRequiredMixin, CreateView):
+class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Status
     form_class = StatusCreateForm
     template_name = "status_create.html"
+    success_message = "Статус успешно создан"
     success_url = reverse_lazy("statuses:status_list")
 
-    def form_valid(self, form):
-        messages.success(self.request, "Статус успешно создан")
-        return super().form_valid(form)
 
-
-class StatusUpdateView(LoginRequiredMixin, UpdateView):
+class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Status
     form_class = StatusCreateForm
     success_url = reverse_lazy("statuses:status_list")
+    success_message = "Статус успешно изменен"
     template_name = "status_update.html"
     login_url = "login"
 
-    def form_valid(self, form):
-        messages.success(self.request, "Статус успешно изменен")
-        return super().form_valid(form)
 
-
-class StatusDeleteView(LoginRequiredMixin, DeleteView):
+class StatusDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Status
     template_name = "status_delete.html"
     success_url = reverse_lazy("statuses:status_list")
     login_url = "login"
+    success_message = "Статус успешно удален"
 
     def form_valid(self, form):
         status = self.get_object()
