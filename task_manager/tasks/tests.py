@@ -33,7 +33,7 @@ class TestTask(TestCase):
                 "name": "Task New",
                 "description": "New Description",
                 "status": self.status.name,
-                "worker": self.other_user.username,
+                "executor": self.other_user.username,
             },
         )
         self.assertEqual(response.status_code, 302)
@@ -57,7 +57,7 @@ class TestTask(TestCase):
                 "name": "Task Updated",
                 "description": "Updated Description",
                 "status": self.status.name,
-                "worker": self.other_user.username,
+                "executor": self.other_user.username,
             },
         )
         self.assertEqual(response.status_code, 302)

@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
-                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                <td>{{ user.get_full_name }}</td>
                 <td>{{ user.date_joined }}</td>
                 <td class="text-center">
                     <a href="{% url 'update_user' user.id %}" class="btn btn-sm btn-warning me-2">

@@ -13,7 +13,7 @@ class TaskCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # отображение исполнителя
-        self.fields["worker"].label_from_instance = (
+        self.fields["executor"].label_from_instance = (
             lambda obj: f"{obj.first_name} {obj.last_name}"
         )
 
@@ -27,7 +27,7 @@ class TaskCreateForm(forms.ModelForm):
         required=True,
     )
 
-    worker = forms.ModelChoiceField(
+    executor = forms.ModelChoiceField(
         queryset=User.objects.all(),
         label="Исполнитель",
         widget=forms.Select,
@@ -43,4 +43,4 @@ class TaskCreateForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ["name", "description", "status", "worker", "label"]
+        fields = ["name", "description", "status", "executor", "label"]
