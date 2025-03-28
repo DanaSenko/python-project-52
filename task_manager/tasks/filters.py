@@ -5,10 +5,6 @@ from django.contrib.auth import get_user_model
 from task_manager.labels.models import Label
 from task_manager.statuses.models import Status
 
-# from django.db.models.functions import Concat
-# from django.db.models import F, Value
-
-
 
 User = get_user_model()
 
@@ -17,8 +13,8 @@ class TaskFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # отображение для выбора исполнителя
-        if "worker" in self.form.fields:
-            self.form.fields["worker"].label_from_instance = lambda obj: (
+        if "executor" in self.form.fields:
+            self.form.fields["executor"].label_from_instance = lambda obj: (
                 f"{obj.first_name} {obj.last_name}".strip() or obj.username
             )
 
@@ -26,7 +22,7 @@ class TaskFilter(django_filters.FilterSet):
         queryset=Status.objects.all(),
         label="Статус",
     )
-    worker = django_filters.ModelChoiceFilter(
+    executor = django_filters.ModelChoiceFilter(
         queryset=User.objects.all(),
         label="Исполнитель",
     )
@@ -41,7 +37,7 @@ class TaskFilter(django_filters.FilterSet):
     )
 
     class Meta:
-        fields = ["status", "worker", "label", "self_tasks"]
+        fields = ["status", "executor", "label", "self_tasks"]
 
     def filter_self_tasks(self, queryset, request, value):
         if value:
