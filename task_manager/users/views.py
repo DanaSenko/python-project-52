@@ -63,7 +63,7 @@ class DeleteUserView(
     def post(self, request, *args, **kwargs):
         user_to_delete = self.get_object()
         if Task.objects.filter(
-            Q(author=user_to_delete) | Q(worker=user_to_delete)
+            Q(author=user_to_delete) | Q(executor=user_to_delete)
         ).exists():
             messages.warning(
                 request, "Невозможно удалить пользователя, потому что он используется"

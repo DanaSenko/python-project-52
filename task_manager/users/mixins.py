@@ -1,8 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import redirect
 
-from task_manager.tasks.models import Task
-
 
 class UserPermissionMixin:
     def dispatch(self, request, *args, **kwargs):
