@@ -26,7 +26,7 @@ class TaskFilter(django_filters.FilterSet):
         queryset=User.objects.all(),
         label="Исполнитель",
     )
-    label = django_filters.ModelMultipleChoiceFilter(
+    labels = django_filters.ModelMultipleChoiceFilter(
         queryset=Label.objects.all(),
         label="Метка",
     )
@@ -37,7 +37,7 @@ class TaskFilter(django_filters.FilterSet):
     )
 
     class Meta:
-        fields = ["status", "executor", "label", "self_tasks"]
+        fields = ["status", "executor", "labels", "self_tasks"]
 
     def filter_self_tasks(self, queryset, request, value):
         if value:

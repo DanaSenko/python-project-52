@@ -26,7 +26,7 @@
                 <div class="col">
                     <p>Метки:</p>
                     <ul>
-                        {% for label in task.label.all %}
+                        {% for label in task.labels.all %}
                         <li>{{ label.name }}</li>
                         {% endfor %}
                     </ul>

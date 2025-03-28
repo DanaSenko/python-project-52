@@ -40,8 +40,8 @@ class LabelDeleteView(SuccessMessageMixin, DeleteView):
     success_message = "Метка успешно удалена"
 
     def form_valid(self, form):
-        label = self.get_object()
-        if Task.objects.filter(label=label).exists():
+        labels = self.get_object()
+        if Task.objects.filter(labels=labels).exists():
             messages.warning(
                 self.request, "Невозможно удалить метку, потому что она используется"
             )

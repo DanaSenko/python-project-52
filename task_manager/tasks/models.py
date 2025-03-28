@@ -26,7 +26,7 @@ class Task(models.Model):
         related_name="authored_tasks",
         verbose_name="Автор",
     )
-    label = models.ManyToManyField(Label, blank=True, null=True, verbose_name="Метка")
+    labels = models.ManyToManyField(Label, blank=True, null=True, verbose_name="Метка")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
