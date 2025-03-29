@@ -11,13 +11,15 @@
         <hr />
         <div class="container">
             <div class="row p-1">
-                <div class="col">{{ task.author.get_full_name }}</div>
+                <div class="col">Автор: {{ task.author.get_full_name }}</div>
             </div>
             <div class="row p-1">
-                <div class="col">{{ task.executor.get_full_name }}</div>
+                <div class="col">
+                    Исполнитель: {{ task.executor.get_full_name }}
+                </div>
             </div>
             <div class="row p-1">
-                <div class="col">{{ task.status }}</div>
+                <div class="col">Статус: {{ task.status }}</div>
             </div>
             <div class="row p-1">
                 <div class="col">{{ task.created_at }}</div>
