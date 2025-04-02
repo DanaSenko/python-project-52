@@ -64,4 +64,5 @@ class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
             return redirect(
                 "tasks:task_list")
 
-        return super().delete(request, *args, **kwargs)
+        task.delete()
+        return redirect(self.success_url)
