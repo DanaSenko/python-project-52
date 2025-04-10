@@ -15,23 +15,23 @@ from .models import Task
 class TaskListView(FilterView):
     model = Task
     filterset_class = TaskFilter
-    template_name = "task_list.html"
-    context_object_name = "tasks"
+    template_name = 'task_list.html'
+    context_object_name = 'tasks'
 
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
-    context_object_name = "task"
-    template_name = "task_details.html"
-    login_url = "login"
+    context_object_name = 'task'
+    template_name = 'task_details.html'
+    login_url = 'login'
 
 
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
     form_class = TaskCreateForm
-    template_name = "task_create.html"
-    success_message = "Задача успешно создана"
-    success_url = reverse_lazy("tasks:task_list")
+    template_name = 'task_create.html'
+    success_message = 'Задача успешно создана'
+    success_url = reverse_lazy('tasks:task_list')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -41,22 +41,22 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Task
     form_class = TaskCreateForm
-    success_url = reverse_lazy("tasks:task_list")
-    success_message = "Задача успешно изменена"
-    template_name = "task_update.html"
-    login_url = "login"
+    success_url = reverse_lazy('tasks:task_list')
+    success_message = 'Задача успешно изменена'
+    template_name = 'task_update.html'
+    login_url = 'login'
 
 
 class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Task
-    template_name = "task_delete.html"
-    success_url = reverse_lazy("tasks:task_list")
-    success_message = "Задача успешно удалена"
-    login_url = "login"
+    template_name = 'task_delete.html'
+    success_url = reverse_lazy('tasks:task_list')
+    success_message = 'Задача успешно удалена'
+    login_url = 'login'
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object.author != request.user:
-            messages.warning(request, "Задачу может удалить только ее автор")
+            messages.warning(request, 'Задачу может удалить только ее автор')
             return redirect(self.success_url)
         return super().dispatch(request, *args, **kwargs)

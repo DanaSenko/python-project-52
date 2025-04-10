@@ -8,22 +8,22 @@ class UserTests(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            username="testuser",
-            first_name="Test",
-            last_name="User",
-            password="testpass123",
+            username='testuser',
+            first_name='Test',
+            last_name='User',
+            password='testpass123',
         )
         self.client = Client()
 
     def test_user_create(self):
         response = self.client.post(
-            reverse("create_user"),
+            reverse('create_user'),
             {
-                "username": "newuser",
-                "first_name": "New",
-                "last_name": "User",
-                "password1": "complexpassword123",
-                "password2": "complexpassword123",
+                'username': 'newuser',
+                'first_name': 'New',
+                'last_name': 'User',
+                'password1': 'complexpassword123',
+                'password2': 'complexpassword123',
             },
         )
         self.assertEqual(response.status_code, 302)
@@ -31,19 +31,21 @@ class UserTests(TestCase):
         self.assertEqual(users.count(), 2)
 
     def test_user_update(self):
-        self.client.login(username="testuser", password="testpass123")
+        self.client.login(username='testuser', password='testpass123')
         response = self.client.post(
-            reverse("update_user", args=[self.user.pk]),
+            reverse('update_user', args=[self.user.pk]),
             {
-                "username": "updateduser",
-                "first_name": "updated",
-                "last_name": "user",
-                "password": "newpassword",
+                'username': 'updateduser',
+                'first_name': 'updated',
+                'last_name': 'user',
+                'password': 'newpassword',
             },
         )
         self.assertEqual(response.status_code, 200)
 
     def test_user_delete(self):
-        self.client.login(username="testuser", password="testpass123")
-        response = self.client.post(reverse("delete_user", args=[self.user.pk]))
-        self.assertEqual(response.status_code, 302)  # Редирект после успешного удаления
+        self.client.login(username='testuser', password='testpass123')
+        response = self.client.post(reverse('delete_user', args=[self.user.pk]))
+        self.assertEqual(
+            response.status_code, 302
+        )  # Редирект после успешного удаления

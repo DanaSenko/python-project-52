@@ -13,37 +13,38 @@ from .models import Label
 # Create your views here.
 class LabelListView(ListView):
     model = Label
-    template_name = "label_list.html"
-    context_object_name = "labels"
+    template_name = 'label_list.html'
+    context_object_name = 'labels'
 
 
 class LabelCreateView(SuccessMessageMixin, CreateView):
     model = Label
     form_class = LabelCreateForm
-    template_name = "label_create.html"
-    success_url = reverse_lazy("labels:label_list")
-    success_message = "Метка успешно создана"
+    template_name = 'label_create.html'
+    success_url = reverse_lazy('labels:label_list')
+    success_message = 'Метка успешно создана'
 
 
 class LabelUpdateView(SuccessMessageMixin, UpdateView):
     model = Label
     form_class = LabelCreateForm
-    template_name = "label_update.html"
-    success_url = reverse_lazy("labels:label_list")
-    success_message = "Метка успешно изменена"
+    template_name = 'label_update.html'
+    success_url = reverse_lazy('labels:label_list')
+    success_message = 'Метка успешно изменена'
 
 
 class LabelDeleteView(SuccessMessageMixin, DeleteView):
     model = Label
-    template_name = "label_delete.html"
-    success_url = reverse_lazy("labels:label_list")
-    success_message = "Метка успешно удалена"
+    template_name = 'label_delete.html'
+    success_url = reverse_lazy('labels:label_list')
+    success_message = 'Метка успешно удалена'
 
     def form_valid(self, form):
         labels = self.get_object()
         if Task.objects.filter(labels=labels).exists():
             messages.warning(
-                self.request, "Невозможно удалить метку, потому что она используется"
+                self.request,
+                'Невозможно удалить метку, потому что она используется',
             )
             return redirect(self.success_url)
         return super().form_valid(form)
