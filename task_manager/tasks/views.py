@@ -54,15 +54,9 @@ class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     success_message = "Задача успешно удалена"
     login_url = "login"
 
-    def delete(self, request, *args, **kwargs):
-        task = self.get_object()
-        if task.author != request.user:
-            messages.error(
-                request,
-                "Задачу может удалить только ее автор",
-            )
-            return redirect(
-                "tasks:task_list")
-
-        task.delete()
-        return redirect(self.success_url)
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.author != request.user:
+            messages.warning(request, "Задачу может удалить только ее автор")
+            return redirect(self.success_url)
+        return super().dispatch(request, *args, **kwargs)
