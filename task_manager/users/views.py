@@ -34,7 +34,7 @@ class CreateUserView(CreateView):  # user registaration and redirect to login pa
             user.save()
             messages.success(self.request, "Пользователь успешно зарегистрирован")
             return redirect("login")
-        return render(request, "users/create_user.html", {"form": form})
+        return render(self.request, "users/create_user.html", {"form": form})
 
 
 class UpdateUserView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
