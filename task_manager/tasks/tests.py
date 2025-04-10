@@ -32,8 +32,7 @@ class TestTask(TestCase):
             {
                 "name": "Task New",
                 "description": "New Description",
-                "status": self.status.name,
-                "executor": self.other_user.username,
+                "status": self.status.pk,
             },
         )
         self.assertEqual(response.status_code, 302)
@@ -51,16 +50,18 @@ class TestTask(TestCase):
         self.assertFalse(Task.objects.filter(name="").exists())
 
     def test_task_update_view(self):
+        self.client.login(username="author", password="testpass123")
+
         response = self.client.post(
             reverse("tasks:task_update", args=[self.task.pk]),
             {
                 "name": "Task Updated",
                 "description": "Updated Description",
-                "status": self.status.name,
-                "executor": self.other_user.username,
+                "status": self.status.pk,  # Use PK instead of name
             },
         )
-        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(response.status_code, 302)  # Redirect after successful update
         self.task.refresh_from_db()
         self.assertEqual(self.task.name, "Task Updated")
 
@@ -73,6 +74,9 @@ class TestTask(TestCase):
 
     def test_task_delete_by_non_author(self):
         self.client.login(username="other", password="12345")
+
         response = self.client.post(reverse("tasks:task_delete", args=[self.task.pk]))
+
         self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("tasks:task_list"))
         self.assertTrue(Task.objects.filter(pk=self.task.pk).exists())
